@@ -8,7 +8,33 @@ import java.sql.*;
 public class DatabaseConnection {
 
 	/* database name- payroll_service */
-	
+
+	public static void retrieveEmployeePayrollData(Connection con) throws SQLException {
+
+		Statement st = con.createStatement();
+		String query = "select * from employee_payroll";
+		ResultSet rs = st.executeQuery(query);
+		while (rs.next()) {
+
+			/* or int id =rs.getInt(1); */
+			int Id = rs.getInt("id");
+			String Name = rs.getString("name");
+			String Gender = rs.getString(3);
+			Double Salary = rs.getDouble(4);
+			String joiningDate = rs.getString("start_date");
+			int phone = rs.getInt("phone");
+			String address = rs.getString("address");
+			String depart = rs.getString("department");
+			Double basic_pay = rs.getDouble("basic_pay");
+			Double deductions = rs.getDouble("deductions");
+			Double taxable_pay = rs.getDouble("taxable_pay");
+			Double income_pay = rs.getDouble("income_pay");
+			
+			System.out.println(Id + " " + Name + " " + Gender + " " + Salary + " " + joiningDate+
+					" "+phone+" "+address+" "+depart+" "+basic_pay+" "+deductions+" "+taxable_pay+" "+
+					income_pay);
+		}
+	}
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 
@@ -20,5 +46,6 @@ public class DatabaseConnection {
 
 		Connection con = DriverManager.getConnection(jdbcURL, username, password);
 		System.out.println("Connection establish !");
+		retrieveEmployeePayrollData(con);
 	}
 }
