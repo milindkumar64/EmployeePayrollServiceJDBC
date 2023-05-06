@@ -29,19 +29,28 @@ public class DatabaseConnection {
 			Double deductions = rs.getDouble("deductions");
 			Double taxable_pay = rs.getDouble("taxable_pay");
 			Double income_pay = rs.getDouble("income_pay");
-			
-			System.out.println(Id + " " + Name + " " + Gender + " " + Salary + " " + joiningDate+
-					" "+phone+" "+address+" "+depart+" "+basic_pay+" "+deductions+" "+taxable_pay+" "+
-					income_pay);
+
+			System.out.println(
+					Id + " " + Name + " " + Gender + " " + Salary + " " + joiningDate + " " + phone + " " + address
+							+ " " + depart + " " + basic_pay + " " + deductions + " " + taxable_pay + " " + income_pay);
 		}
 	}
+
 	public static void updateEmployeePayrollData(Connection con) throws SQLException {
 		Statement st = con.createStatement();
 		String query = "update employee_payroll set basic_pay='3000000.00' where name = 'Terissa'";
 		int i = st.executeUpdate(query);
-		System.out.println(i+"row affected");
+		System.out.println(i + "row affected");
+	}
+	
+	public static void updateEmployeePayrollDataUsingPreparedStatement(Connection con) throws SQLException {
+
+		String query = "update employee_payroll set basic_pay='4000000.00' where name = 'Terissa'";
+		PreparedStatement  ps = con.prepareStatement(query);
+		ps.executeUpdate();
 	}
 
+	
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 
 		String jdbcURL = "jdbc:mysql://localhost:3306/payroll_service";
@@ -52,10 +61,13 @@ public class DatabaseConnection {
 
 		Connection con = DriverManager.getConnection(jdbcURL, username, password);
 		System.out.println("Connection establish !");
-	
+
 		// --------- UC3 -------
 		updateEmployeePayrollData(con);
-		System.out.println("employe_payroll table data : ");
-		retrieveEmployeePayrollData(con);
+		
+		// --------- UC4 -------
+		updateEmployeePayrollDataUsingPreparedStatement(con);
+				
 	}
+
 }
