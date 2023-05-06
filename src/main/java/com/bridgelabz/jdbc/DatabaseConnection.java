@@ -35,6 +35,12 @@ public class DatabaseConnection {
 					income_pay);
 		}
 	}
+	public static void updateEmployeePayrollData(Connection con) throws SQLException {
+		Statement st = con.createStatement();
+		String query = "update employee_payroll set basic_pay='3000000.00' where name = 'Terissa'";
+		int i = st.executeUpdate(query);
+		System.out.println(i+"row affected");
+	}
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 
@@ -46,6 +52,10 @@ public class DatabaseConnection {
 
 		Connection con = DriverManager.getConnection(jdbcURL, username, password);
 		System.out.println("Connection establish !");
+	
+		// --------- UC3 -------
+		updateEmployeePayrollData(con);
+		System.out.println("employe_payroll table data : ");
 		retrieveEmployeePayrollData(con);
 	}
 }
