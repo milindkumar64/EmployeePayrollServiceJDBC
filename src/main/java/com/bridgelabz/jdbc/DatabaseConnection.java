@@ -42,15 +42,24 @@ public class DatabaseConnection {
 		int i = st.executeUpdate(query);
 		System.out.println(i + "row affected");
 	}
-	
+
 	public static void updateEmployeePayrollDataUsingPreparedStatement(Connection con) throws SQLException {
 
 		String query = "update employee_payroll set basic_pay='4000000.00' where name = 'Terissa'";
-		PreparedStatement  ps = con.prepareStatement(query);
+		PreparedStatement ps = con.prepareStatement(query);
 		ps.executeUpdate();
 	}
 
-	
+	public static void retrieveEmployeeWhoJoinedInParticularDateRange(Connection con) throws SQLException {
+		String query = "select * from employee_payroll where start_date between cast('2017-06-28' as date) and date(now())";
+		PreparedStatement ps = con.prepareStatement(query);
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			String name = rs.getString("name");
+			System.out.println(name + " ");
+		}
+	}
+
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 
 		String jdbcURL = "jdbc:mysql://localhost:3306/payroll_service";
@@ -66,7 +75,13 @@ public class DatabaseConnection {
 		updateEmployeePayrollData(con);
 		
 		// --------- UC4 -------
-		updateEmployeePayrollDataUsingPreparedStatement(con);		
+		updateEmployeePayrollDataUsingPreparedStatement(con);
+		
+		//--------- UC5 -------
+		System.out.println("Employees Who joined after date '2017-06-28' :");
+		retrieveEmployeeWhoJoinedInParticularDateRange(con);
+		System.out.println("employe_payroll table data : ");
+		retrieveEmployeePayrollData(con);
 	}
 
 }
