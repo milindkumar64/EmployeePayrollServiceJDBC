@@ -66,8 +66,7 @@ public class DatabaseConnection {
 		updateEmployeePayrollData(con);
 		
 		// --------- UC4 -------
-		updateEmployeePayrollDataUsingPreparedStatement(con);
-				
+		updateEmployeePayrollDataUsingPreparedStatement(con);		
 	}
 
 }
