@@ -59,6 +59,46 @@ public class DatabaseConnection {
 			System.out.println(name + " ");
 		}
 	}
+	public static void findSumMiscellaneousResults(Connection con) throws SQLException {
+	
+		String query1 = "Select min(salary) from employee_payroll where gender = 'F' group by gender";
+		String query2 = "Select max(salary) from employee_payroll where gender = 'F' group by gender";
+		String query3 = "Select count(name) from employee_payroll";
+		String query4 = "select avg(salary) from employee_payroll";
+		String query5 = "Select sum(salary) from employee_payroll where gender ='F' group by gender";
+		
+		PreparedStatement ps1 = con.prepareStatement(query1);
+		PreparedStatement ps2 = con.prepareStatement(query2);
+		PreparedStatement ps3 = con.prepareStatement(query3);
+		PreparedStatement ps4 = con.prepareStatement(query4);
+		PreparedStatement ps5 = con.prepareStatement(query5);
+		
+		ResultSet rs1 = ps1.executeQuery();
+		ResultSet rs2 = ps2.executeQuery();
+		ResultSet rs3 = ps3.executeQuery();
+		ResultSet rs4 = ps4.executeQuery();
+		ResultSet rs5 = ps5.executeQuery();
+		while(rs1.next())
+		{
+			System.out.println("min(salary): "+rs1.getString(1));
+		}	
+		while(rs2.next())
+		{
+			System.out.println("max(salary): "+rs2.getString(1));
+		}	
+		while(rs3.next())
+		{
+			System.out.println("count(name)"+rs3.getString(1));
+		}	
+		while(rs4.next())
+		{
+			System.out.println("avg(name)"+rs4.getString(1));
+		}	
+		while(rs5.next())
+		{
+			System.out.println("sum(name)"+rs5.getString(1));
+		}	
+	}
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 
@@ -82,6 +122,12 @@ public class DatabaseConnection {
 		retrieveEmployeeWhoJoinedInParticularDateRange(con);
 		System.out.println("employe_payroll table data : ");
 		retrieveEmployeePayrollData(con);
+		
+		
+		//--------- UC6 -------
+		findSumMiscellaneousResults(con);
+		
+		
 	}
 
 }
